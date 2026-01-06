@@ -12,7 +12,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4">
+    <section id="about" className="py-12 md:py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 glow-border">
@@ -29,14 +29,14 @@ const About = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold">My Journey</h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm a passionate full-stack developer with over 3 years of experience crafting 
-                digital solutions that make a difference. My journey began with curiosity about 
-                how things work on the web, and it's evolved into a career dedicated to building 
+                I'm a passionate full-stack developer with over 3 years of experience crafting
+                digital solutions that make a difference. My journey began with curiosity about
+                how things work on the web, and it's evolved into a career dedicated to building
                 exceptional user experiences.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                I specialize in modern JavaScript frameworks, cloud technologies, and have a 
-                keen eye for design. I believe great software is not just functional—it's 
+                I specialize in modern JavaScript frameworks, cloud technologies, and have a
+                keen eye for design. I believe great software is not just functional—it's
                 beautiful, intuitive, and makes people's lives easier.
               </p>
             </div>

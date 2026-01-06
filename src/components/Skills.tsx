@@ -46,7 +46,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-20 px-4 bg-card/20">
+    <section id="skills" className="py-12 md:py-20 px-4 bg-card/20">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 glow-border">
@@ -56,7 +56,7 @@ const Skills = () => {
             Technologies I <span className="text-gradient">Master</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Constantly learning and adapting to new technologies to deliver 
+            Constantly learning and adapting to new technologies to deliver
             cutting-edge solutions.
           </p>
         </div>
@@ -79,8 +79,8 @@ const Skills = () => {
                   <span className="font-medium">{skill.name}</span>
                   <span className="text-sm text-muted-foreground">{skill.level}%</span>
                 </div>
-                <Progress 
-                  value={animate ? skill.level : 0} 
+                <Progress
+                  value={animate ? skill.level : 0}
                   className="h-2"
                 />
               </motion.div>
@@ -106,10 +106,10 @@ const Skills = () => {
                   </h3>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {category.skills.map((skill) => (
-                      <Badge 
-                        key={skill} 
-                        variant="secondary" 
-                        className="text-xs hover:bg-primary/20 hover:text-primary transition-all duration-200"
+                      <Badge
+                        key={skill}
+                        variant="secondary"
+                        className="text-xs py-1.5 px-3 hover:bg-primary/20 hover:text-primary transition-all duration-200"
                       >
                         {skill}
                       </Badge>
@@ -128,13 +128,13 @@ const Skills = () => {
           </h3>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
             {[
-              "Responsive Design", "RESTful APIs", "GraphQL", "WebSocket", 
+              "Responsive Design", "RESTful APIs", "GraphQL", "WebSocket",
               "Testing (Jest/Cypress)", "CI/CD", "Microservices", "Performance Optimization",
               "SEO", "Accessibility", "UI/UX Design", "Agile/Scrum"
             ].map((skill) => (
-              <Badge 
-                key={skill} 
-                variant="outline" 
+              <Badge
+                key={skill}
+                variant="outline"
                 className="text-sm glow-border hover:bg-card-hover transition-all duration-300"
               >
                 {skill}

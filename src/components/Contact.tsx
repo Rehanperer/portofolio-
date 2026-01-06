@@ -8,19 +8,19 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "hello@alexdeveloper.com",
-      href: "mailto:hello@alexdeveloper.com"
+      value: "rehanbusiness007@gmail.com",
+      href: "mailto:rehanbusiness007@gmail.com"
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567"
+      value: "+94 76 570 4754",
+      href: "tel:+94765704754"
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "San Francisco, CA",
+      value: "Colombo SriLanka",
       href: "#"
     }
   ];
@@ -29,25 +29,20 @@ const Contact = () => {
     {
       icon: Github,
       label: "GitHub",
-      href: "https://github.com",
-      username: "@alexdev"
+      href: "https://github.com/Rehanperer",
+      username: "@Rehanperer"
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "https://linkedin.com",
-      username: "Alex Developer"
+      href: "https://www.linkedin.com/in/rehan-perera-09a9752b6",
+      username: "Rehan Perera"
     },
-    {
-      icon: Twitter,
-      label: "Twitter",
-      href: "https://twitter.com",
-      username: "@alexcodes"
-    }
+
   ];
 
   return (
-    <section id="contact" className="py-20 px-4">
+    <section id="contact" className="py-12 md:py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 glow-border">
@@ -57,7 +52,7 @@ const Contact = () => {
             Let's Build Something <span className="text-gradient">Amazing</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Ready to bring your ideas to life? I'm always excited to work on 
+            Ready to bring your ideas to life? I'm always excited to work on
             new projects and collaborate with fellow creators.
           </p>
         </div>
@@ -71,7 +66,7 @@ const Contact = () => {
               </h3>
               <div className="space-y-4">
                 {contactInfo.map((item) => (
-                  <Card 
+                  <Card
                     key={item.label}
                     className="group hover:bg-card-hover transition-all duration-300 border-border/50 hover:border-primary/50"
                   >
@@ -82,7 +77,7 @@ const Contact = () => {
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">{item.label}</p>
-                          <a 
+                          <a
                             href={item.href}
                             className="text-lg font-medium hover:text-primary transition-colors"
                           >
@@ -140,27 +135,27 @@ const Contact = () => {
                 <div className="w-20 h-20 mx-auto rounded-full bg-primary/20 flex items-center justify-center animate-glow">
                   <Mail className="w-10 h-10 text-primary" />
                 </div>
-                
+
                 <div>
                   <h3 className="text-2xl font-bold mb-3">
                     Ready to Start a Project?
                   </h3>
                   <p className="text-muted-foreground mb-6">
-                    Whether you need a website, web application, or just want to discuss 
+                    Whether you need a website, web application, or just want to discuss
                     an idea, I'd love to hear from you.
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     className="w-full glow-primary hover:scale-105 transition-all duration-300"
-                    onClick={() => window.location.href = 'mailto:hello@alexdeveloper.com'}
+                    onClick={() => window.location.href = 'mailto:rehanbusiness007@gmail.com'}
                   >
                     <Mail className="w-5 h-5 mr-2" />
                     Send Me an Email
                   </Button>
-                  
+
                   <p className="text-sm text-muted-foreground">
                     Usually responds within 24 hours
                   </p>

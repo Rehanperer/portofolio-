@@ -21,7 +21,7 @@ const Hero = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 z-0 opacity-20"
         style={{
           backgroundImage: `url(${heroImage})`,
@@ -29,15 +29,15 @@ const Hero = () => {
           backgroundPosition: 'center',
         }}
       />
-      
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background z-10" />
-      
+
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-primary/20 animate-float" />
-      <div className="absolute bottom-40 right-20 w-16 h-16 rounded-full bg-electric/20 animate-float" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/3 right-10 w-12 h-12 rounded-full bg-primary-glow/30 animate-float" style={{ animationDelay: '2s' }} />
-      
+      <div className="absolute top-20 left-4 md:left-10 w-12 h-12 md:w-20 md:h-20 rounded-full bg-primary/20 animate-float opacity-50 md:opacity-100" />
+      <div className="absolute bottom-40 right-4 md:right-20 w-10 h-10 md:w-16 md:h-16 rounded-full bg-electric/20 animate-float opacity-50 md:opacity-100" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-1/3 right-4 md:right-10 w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary-glow/30 animate-float opacity-50 md:opacity-100" style={{ animationDelay: '2s' }} />
+
       {/* Content */}
       <div className="relative z-20 text-center max-w-4xl mx-auto">
         <motion.div
@@ -49,20 +49,20 @@ const Hero = () => {
             Available for Projects
           </Badge>
         </motion.div>
-        
-        <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 animate-float"
+
+        <motion.h1
+          className="text-4xl md:text-7xl font-bold mb-6 animate-float"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           Hi, I'm{" "}
           <span className="text-gradient">
-            Alex Developer
+            Rehan Perera
           </span>
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,33 +70,33 @@ const Hero = () => {
         >
           Full-stack developer crafting beautiful digital experiences with modern technologies
         </motion.p>
-        
-        <motion.div 
+
+        <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             onClick={scrollToProjects}
             className="group glow-primary hover:glow-primary hover:scale-105 transition-all duration-300"
           >
             View My Work
             <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
+          <Button
+            variant="outline"
+            size="lg"
             onClick={scrollToContact}
             className="glow-border hover:bg-card-hover transition-all duration-300"
           >
             Get In Touch
           </Button>
         </motion.div>
-        
+
         {/* Tech Stack */}
-        <motion.div 
+        <motion.div
           className="mt-16 flex flex-wrap justify-center gap-3 max-w-md mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -34,15 +34,14 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-background/95 backdrop-blur-md border-b border-border/50" : "bg-transparent"
-    }`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md border-b border-border/50" : "bg-transparent"
+      }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Badge variant="outline" className="glow-border font-bold text-lg px-3 py-2">
-              AD
+              RP
             </Badge>
           </div>
 
@@ -66,7 +65,7 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => window.open("https://github.com", "_blank")}
+              onClick={() => window.open("https://github.com/Rehanperer", "_blank")}
               className="hover:bg-card-hover"
             >
               <Github className="h-4 w-4" />
@@ -74,7 +73,7 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => window.open("https://linkedin.com", "_blank")}
+              onClick={() => window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank")}
               className="hover:bg-card-hover"
             >
               <Linkedin className="h-4 w-4" />
@@ -120,7 +119,7 @@ const Navigation = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => window.open("https://github.com", "_blank")}
+                onClick={() => window.open("https://github.com/Rehanperer", "_blank")}
                 className="hover:bg-card-hover"
               >
                 <Github className="h-4 w-4" />
@@ -128,7 +127,7 @@ const Navigation = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => window.open("https://linkedin.com", "_blank")}
+                onClick={() => window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank")}
                 className="hover:bg-card-hover"
               >
                 <Linkedin className="h-4 w-4" />

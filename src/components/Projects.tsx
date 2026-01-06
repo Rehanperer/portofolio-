@@ -103,7 +103,7 @@ const Projects = () => {
     }
   };
 
-  const filteredProjects = projects.filter(project => 
+  const filteredProjects = projects.filter(project =>
     filter === "all" || project.category === filter
   );
 
@@ -113,9 +113,8 @@ const Projects = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className={`group hover:bg-card-hover transition-all duration-300 border-border/50 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 ${
-        project.featured ? 'md:col-span-2 lg:col-span-1' : ''
-      }`}>
+      <Card className={`group hover:bg-card-hover transition-all duration-300 border-border/50 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 ${project.featured ? 'md:col-span-2 lg:col-span-1' : ''
+        }`}>
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
@@ -132,7 +131,7 @@ const Projects = () => {
               </CardDescription>
             </div>
           </div>
-          
+
           {/* GitHub Stats */}
           <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-2">
             <div className="flex items-center space-x-1">
@@ -149,31 +148,31 @@ const Projects = () => {
             </div>
           </div>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-2">
             {project.tech.map((tech: string) => (
-              <Badge 
-                key={tech} 
-                variant="secondary" 
-                className="text-xs hover:bg-primary/20 transition-colors"
+              <Badge
+                key={tech}
+                variant="secondary"
+                className="text-xs py-1 px-2.5 hover:bg-primary/20 transition-colors"
               >
                 {tech}
               </Badge>
             ))}
           </div>
-          
+
           <div className="flex gap-3 pt-2">
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               onClick={() => handleProjectClick(project.demoUrl)}
               className="flex-1 group/btn hover:glow-primary transition-all duration-300"
             >
               <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
               Live Demo
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => handleProjectClick(project.githubUrl)}
               className="flex-1 glow-border hover:bg-card-hover transition-all duration-300"
@@ -193,8 +192,8 @@ const Projects = () => {
                 </DialogHeader>
                 <div className="space-y-6">
                   {project.images && (
-                    <img 
-                      src={project.images[0]} 
+                    <img
+                      src={project.images[0]}
                       alt={project.title}
                       className="w-full h-48 object-cover rounded-lg"
                     />
@@ -229,7 +228,7 @@ const Projects = () => {
   );
 
   return (
-    <section id="projects" className="py-20 px-4">
+    <section id="projects" className="py-12 md:py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 glow-border">
@@ -239,7 +238,7 @@ const Projects = () => {
             Featured <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A showcase of my recent work, demonstrating skills in full-stack development, 
+            A showcase of my recent work, demonstrating skills in full-stack development,
             modern frameworks, and creative problem-solving.
           </p>
         </div>
