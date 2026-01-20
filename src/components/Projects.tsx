@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ExternalLink, Github, Star, GitFork, Eye } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { ExternalLink, Github, Star, GitFork, Eye, ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { useInView } from "@/hooks/useAnimations";
 
 const Projects = () => {
   const [filter, setFilter] = useState("all");
+  const [sectionRef, isInView] = useInView<HTMLDivElement>({ threshold: 0.05 });
 
   const projects = [
     {
@@ -23,7 +25,8 @@ const Projects = () => {
       stats: { stars: 45, forks: 12, watchers: 8 },
       images: ["https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop"],
       challenges: "Implementing real-time inventory updates and handling concurrent user sessions.",
-      results: "Achieved 99.9% uptime and processed over $100k in transactions."
+      results: "Achieved 99.9% uptime and processed over $100k in transactions.",
+      gradient: "from-blue-500/20 to-cyan-500/20",
     },
     {
       title: "Task Management App",
@@ -37,7 +40,8 @@ const Projects = () => {
       stats: { stars: 32, forks: 8, watchers: 15 },
       images: ["https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop"],
       challenges: "Implementing real-time collaboration without conflicts and optimizing for mobile devices.",
-      results: "Improved team productivity by 40% for beta users."
+      results: "Improved team productivity by 40% for beta users.",
+      gradient: "from-purple-500/20 to-pink-500/20",
     },
     {
       title: "AI Chat Interface",
@@ -51,7 +55,8 @@ const Projects = () => {
       stats: { stars: 28, forks: 6, watchers: 12 },
       images: ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop"],
       challenges: "Handling real-time streaming and maintaining conversation context across sessions.",
-      results: "Reduced response time by 60% compared to traditional request-response patterns."
+      results: "Reduced response time by 60% compared to traditional request-response patterns.",
+      gradient: "from-green-500/20 to-emerald-500/20",
     },
     {
       title: "Weather Dashboard",
@@ -65,7 +70,8 @@ const Projects = () => {
       stats: { stars: 18, forks: 4, watchers: 7 },
       images: ["https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop"],
       challenges: "Handling multiple API integrations and creating responsive data visualizations.",
-      results: "Achieved 95% accuracy in weather predictions for local areas."
+      results: "Achieved 95% accuracy in weather predictions for local areas.",
+      gradient: "from-orange-500/20 to-yellow-500/20",
     },
     {
       title: "Portfolio Website",
@@ -79,7 +85,8 @@ const Projects = () => {
       stats: { stars: 22, forks: 5, watchers: 9 },
       images: ["https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop"],
       challenges: "Creating smooth animations while maintaining performance across all devices.",
-      results: "Achieved perfect Google Lighthouse scores for performance and accessibility."
+      results: "Achieved perfect Google Lighthouse scores for performance and accessibility.",
+      gradient: "from-indigo-500/20 to-violet-500/20",
     },
     {
       title: "Social Media Analytics",
@@ -93,8 +100,9 @@ const Projects = () => {
       stats: { stars: 35, forks: 9, watchers: 14 },
       images: ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"],
       challenges: "Processing large datasets efficiently and creating real-time data pipelines.",
-      results: "Processed over 10M data points daily with 99.5% accuracy."
-    }
+      results: "Processed over 10M data points daily with 99.5% accuracy.",
+      gradient: "from-rose-500/20 to-red-500/20",
+    },
   ];
 
   const handleProjectClick = (url: string) => {
@@ -103,167 +111,273 @@ const Projects = () => {
     }
   };
 
-  const filteredProjects = projects.filter(project =>
-    filter === "all" || project.category === filter
+  const filteredProjects = projects.filter(
+    (project) => filter === "all" || project.category === filter
   );
 
-  const ProjectCard = ({ project, index }: { project: any, index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-    >
-      <Card className={`group hover:bg-card-hover transition-all duration-300 border-border/50 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 ${project.featured ? 'md:col-span-2 lg:col-span-1' : ''
-        }`}>
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
-                {project.title}
-                {project.featured && (
-                  <Badge variant="outline" className="ml-2 text-xs glow-border">
-                    Featured
-                  </Badge>
-                )}
-              </CardTitle>
-              <CardDescription className="text-muted-foreground leading-relaxed">
-                {project.description}
-              </CardDescription>
-            </div>
-          </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-          {/* GitHub Stats */}
-          <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-2">
-            <div className="flex items-center space-x-1">
-              <Star className="w-3 h-3" />
-              <span>{project.stats.stars}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <GitFork className="w-3 h-3" />
-              <span>{project.stats.forks}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Eye className="w-3 h-3" />
-              <span>{project.stats.watchers}</span>
-            </div>
-          </div>
-        </CardHeader>
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
 
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech: string) => (
-              <Badge
-                key={tech}
-                variant="secondary"
-                className="text-xs py-1 px-2.5 hover:bg-primary/20 transition-colors"
-              >
-                {tech}
-              </Badge>
-            ))}
-          </div>
+  const ProjectCard = ({ project, index }: { project: (typeof projects)[0]; index: number }) => {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
-          <div className="flex gap-3 pt-2">
-            <Button
-              size="sm"
-              onClick={() => handleProjectClick(project.demoUrl)}
-              className="flex-1 group/btn hover:glow-primary transition-all duration-300"
-            >
-              <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
-              Live Demo
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleProjectClick(project.githubUrl)}
-              className="flex-1 glow-border hover:bg-card-hover transition-all duration-300"
-            >
-              <Github className="w-4 h-4 mr-2" />
-              Code
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="hover:bg-card-hover">
-                  Details
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl">{project.title}</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-6">
-                  {project.images && (
-                    <img
-                      src={project.images[0]}
-                      alt={project.title}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
+    const handleMouseMove = (e: React.MouseEvent) => {
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      });
+    };
+
+    return (
+      <motion.div
+        ref={cardRef}
+        variants={itemVariants}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        whileHover={{ y: -8 }}
+        className="h-full"
+      >
+        <Card
+          className={`group h-full glass-card border-primary/10 hover:border-primary/30 transition-all duration-500 overflow-hidden relative`}
+          style={
+            {
+              "--mouse-x": `${mousePosition.x}%`,
+              "--mouse-y": `${mousePosition.y}%`,
+            } as React.CSSProperties
+          }
+        >
+          {/* Spotlight effect */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden md:block"
+            style={{
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, hsl(var(--primary) / 0.1), transparent 40%)`,
+            }}
+          />
+
+          {/* Gradient background on hover */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+          />
+
+          <CardHeader className="relative">
+            <div className="flex items-start justify-between">
+              <div className="space-y-1">
+                <CardTitle className="text-lg md:text-xl group-hover:text-primary transition-colors flex items-center gap-2">
+                  {project.title}
+                  {project.featured && (
+                    <Badge variant="outline" className="glow-border text-xs">
+                      Featured
+                    </Badge>
                   )}
-                  <div>
-                    <h4 className="font-semibold mb-2">About this project</h4>
-                    <p className="text-muted-foreground">{project.longDescription}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Challenges</h4>
-                    <p className="text-muted-foreground">{project.challenges}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Results</h4>
-                    <p className="text-muted-foreground">{project.results}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Technologies</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech: string) => (
-                        <Badge key={tech} variant="secondary">{tech}</Badge>
-                      ))}
+                </CardTitle>
+                <CardDescription className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                  {project.description}
+                </CardDescription>
+              </div>
+              <motion.div
+                className="p-2 rounded-lg bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                whileHover={{ scale: 1.1, rotate: 45 }}
+              >
+                <ArrowUpRight className="w-4 h-4 text-primary" />
+              </motion.div>
+            </div>
+
+            {/* GitHub Stats */}
+            <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-3 pt-3 border-t border-border/50">
+              <motion.div
+                className="flex items-center space-x-1"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Star className="w-3 h-3 text-yellow-500" />
+                <span>{project.stats.stars}</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center space-x-1"
+                whileHover={{ scale: 1.1 }}
+              >
+                <GitFork className="w-3 h-3 text-blue-400" />
+                <span>{project.stats.forks}</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center space-x-1"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Eye className="w-3 h-3 text-green-400" />
+                <span>{project.stats.watchers}</span>
+              </motion.div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="space-y-4 relative">
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((tech, i) => (
+                <motion.div
+                  key={tech}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 * i }}
+                >
+                  <Badge
+                    variant="secondary"
+                    className="text-xs py-1 px-2.5 bg-primary/10 hover:bg-primary/20 transition-colors"
+                  >
+                    {tech}
+                  </Badge>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <Button
+                size="sm"
+                onClick={() => handleProjectClick(project.demoUrl)}
+                className="flex-1 group/btn glow-primary hover:glow-primary-intense transition-all duration-300"
+              >
+                <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
+                Demo
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleProjectClick(project.githubUrl)}
+                className="flex-1 glow-border hover:bg-card-hover transition-all duration-300"
+              >
+                <Github className="w-4 h-4 mr-2" />
+                Code
+              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-primary/10 transition-colors"
+                  >
+                    Details
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto glass-card">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl text-gradient">{project.title}</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    {project.images && (
+                      <div className="relative rounded-xl overflow-hidden">
+                        <img
+                          src={project.images[0]}
+                          alt={project.title}
+                          className="w-full h-48 md:h-56 object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-semibold mb-2 text-primary">About this project</h4>
+                      <p className="text-muted-foreground text-sm md:text-base">{project.longDescription}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-primary">Challenges</h4>
+                      <p className="text-muted-foreground text-sm md:text-base">{project.challenges}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-primary">Results</h4>
+                      <p className="text-muted-foreground text-sm md:text-base">{project.results}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-primary">Technologies</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech: string) => (
+                          <Badge key={tech} className="bg-primary/10">{tech}</Badge>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
+                </DialogContent>
+              </Dialog>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  };
 
   return (
-    <section id="projects" className="py-12 md:py-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4 glow-border">
+    <section id="projects" className="py-16 md:py-24 px-4 relative overflow-hidden" ref={sectionRef}>
+      {/* Background decorations */}
+      <div className="absolute top-20 -right-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute bottom-20 -left-32 w-64 h-64 rounded-full bg-purple/5 blur-3xl" />
+
+      <motion.div
+        className="max-w-7xl mx-auto relative"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
+        <motion.div variants={itemVariants} className="text-center mb-12 md:mb-16">
+          <Badge variant="outline" className="mb-4 md:mb-6 glow-border-animated px-4 py-2">
             My Work
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
             A showcase of my recent work, demonstrating skills in full-stack development,
             modern frameworks, and creative problem-solving.
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Controls */}
-        <div className="flex justify-center mb-12">
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Filter projects" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Projects</SelectItem>
-              <SelectItem value="frontend">Frontend</SelectItem>
-              <SelectItem value="backend">Backend</SelectItem>
-              <SelectItem value="fullstack">Full Stack</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <motion.div variants={itemVariants} className="flex justify-center mb-8 md:mb-12">
+          <div className="glass-card rounded-full p-1">
+            <Select value={filter} onValueChange={setFilter}>
+              <SelectTrigger className="w-48 md:w-56 border-0 bg-transparent focus:ring-0 focus:ring-offset-0">
+                <SelectValue placeholder="Filter projects" />
+              </SelectTrigger>
+              <SelectContent className="glass-card">
+                <SelectItem value="all">All Projects</SelectItem>
+                <SelectItem value="frontend">Frontend</SelectItem>
+                <SelectItem value="backend">Backend</SelectItem>
+                <SelectItem value="fullstack">Full Stack</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
-          ))}
-        </div>
-      </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8"
+          variants={containerVariants}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.title} project={project} index={index} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
