@@ -1,216 +1,179 @@
+import React, { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  Award,
+  Briefcase,
+  Coffee,
+  Sparkles,
+  GraduationCap
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Download, MapPin, Calendar, Award, Code, Zap, Heart, Coffee } from "lucide-react";
-import { motion } from "framer-motion";
-import { useInView, useCountUp } from "@/hooks/useAnimations";
+
+const Counter = ({ value, duration = 2, delay = 0 }: { value: number; duration?: number; delay?: number }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(countRef, { once: true });
+
+  useEffect(() => {
+    if (isInView) {
+      const timeout = setTimeout(() => {
+        let start = 0;
+        const end = value;
+        const totalMiliseconds = duration * 1000;
+        const incrementTime = totalMiliseconds / end;
+
+        const timer = setInterval(() => {
+          start += 1;
+          setCount(start);
+          if (start >= end) clearInterval(timer);
+        }, incrementTime);
+
+        return () => clearInterval(timer);
+      }, delay * 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [value, duration, isInView, delay]);
+
+  return <span ref={countRef}>{count}</span>;
+};
 
 const About = () => {
-  const [sectionRef, isInView] = useInView<HTMLDivElement>({ threshold: 0.1 });
-  const [statsRef, statsInView] = useInView<HTMLDivElement>({ threshold: 0.3 });
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const achievements = [
-    { number: 50, suffix: "+", label: "Projects Completed", icon: Code },
-    { number: 3, suffix: "+", label: "Years Experience", icon: Calendar },
-    { number: 15, suffix: "+", label: "Technologies", icon: Zap },
-    { number: 100, suffix: "%", label: "Passion", icon: Heart },
+    { label: "Years Experience", number: "2", suffix: "+", icon: Award },
+    { label: "Projects Completed", number: "30", suffix: "+", icon: Briefcase },
+    { label: "Cups of Coffee", number: "500", suffix: "+", icon: Coffee },
+    { label: "Happy Clients", number: "15", suffix: "+", icon: Sparkles },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    }),
-  };
-
-  const StatCard = ({ achievement, index }: { achievement: typeof achievements[0]; index: number }) => {
-    const count = useCountUp(achievement.number, 2000, statsInView);
-    const Icon = achievement.icon;
-
-    return (
-      <motion.div
-        custom={index}
-        variants={cardVariants}
-        initial="hidden"
-        animate={statsInView ? "visible" : "hidden"}
-        whileHover={{ scale: 1.05, y: -5 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <Card className="text-center group glass-card hover:border-primary/50 transition-all duration-500 overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-electric/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <CardContent className="p-4 md:p-6 relative">
-            <motion.div
-              className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors"
-              whileHover={{ rotate: 10 }}
-            >
-              <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-            </motion.div>
-            <div className="text-2xl md:text-4xl font-bold text-gradient mb-1 md:mb-2 tabular-nums">
-              {count}{achievement.suffix}
-            </div>
-            <div className="text-xs md:text-sm text-muted-foreground">
-              {achievement.label}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
+  const scrollToContact = () => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <section id="about" className="py-16 md:py-24 px-4 relative overflow-hidden" ref={sectionRef}>
-      {/* Background decoration */}
-      <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-64 h-64 rounded-full bg-electric/5 blur-3xl" />
+    <section id="about" className="relative py-20 md:py-32 overflow-hidden px-4" ref={sectionRef}>
+      {/* Decorative Orbs */}
+      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float-slow" />
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-purple/10 rounded-full blur-3xl animate-float-delayed" />
 
-      <motion.div
-        className="max-w-6xl mx-auto relative"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        <motion.div variants={itemVariants} className="text-center mb-12 md:mb-16">
-          <Badge variant="outline" className="mb-4 md:mb-6 glow-border-animated px-4 py-2">
-            About Me
+      <div className="container relative z-10 mx-auto max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12 md:mb-20"
+        >
+          <Badge variant="outline" className="mb-4 glow-border px-4 py-1.5 text-sm">
+            My Journey
           </Badge>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
-            Get to Know <span className="text-gradient">Me Better</span>
+          <h2 className="text-responsive-h2 font-bold mb-4 md:mb-6 text-foreground">
+            About <span className="text-gradient">Me</span>
           </h2>
-          <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Passionate about creating impactful digital solutions
-          </p>
+          <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-electric mx-auto rounded-full glow-primary" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Story & Info */}
-          <motion.div variants={itemVariants} className="space-y-6 md:space-y-8">
-            <div className="space-y-4 md:space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-1 h-8 bg-gradient-to-b from-primary to-electric rounded-full" />
-                <h3 className="text-xl md:text-2xl font-semibold">My Journey</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start">
+          {/* Stats Section - Bottom on mobile, Left on Desktop */}
+          <div className="lg:col-span-5 grid grid-cols-2 gap-4 md:gap-6 order-2 lg:order-1">
+            {achievements.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: index * 0.1, duration: 0.5, type: "spring" }}
+                className="glass-card p-5 md:p-8 rounded-3xl text-center group hover:glow-primary transition-all duration-300"
+              >
+                <div className="mb-3 md:mb-4 inline-flex p-3 md:p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <stat.icon className="w-6 h-6 md:w-8 md:h-8" />
+                </div>
+                <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2 text-gradient-animated">
+                  <Counter value={parseInt(stat.number)} duration={2} delay={0.2} />
+                  {stat.suffix}
+                </div>
+                <div className="text-[10px] md:text-xs text-muted-foreground font-semibold uppercase tracking-widest">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Text Content - Top on mobile, Right on Desktop */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="glass p-8 md:p-12 rounded-[2.5rem] border border-primary/10 shadow-2xl"
+            >
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 flex items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-primary/20">
+                  <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                </div>
+                The Mission
+              </h3>
+              <div className="space-y-4 md:space-y-6 text-responsive-p text-muted-foreground leading-relaxed">
+                <p>
+                  I'm a passionate full-stack developer dedicated to building
+                  high-performance, user-centric web applications. My background in
+                  engineering helps me approach problems with a structured lens while
+                  maintaining a keen eye for design aesthetics.
+                </p>
+                <p>
+                  With <span className="text-foreground font-semibold">2+ years</span> of
+                  hands-on experience, I specialize in crafting seamless digital
+                  journeys using modern frameworks. My goal is to build technology
+                  that not only looks beautiful but solves real-world problems.
+                </p>
               </div>
 
-              <div className="glass-card rounded-2xl p-4 md:p-6 space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  I'm a passionate full-stack developer with over{" "}
-                  <span className="text-primary font-medium">3 years of experience</span>{" "}
-                  crafting digital solutions that make a difference. My journey began with
-                  curiosity about how things work on the web, and it's evolved into a career
-                  dedicated to building exceptional user experiences.
-                </p>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  I specialize in{" "}
-                  <span className="text-primary font-medium">modern JavaScript frameworks</span>,
-                  cloud technologies, and have a keen eye for design. I believe great software
-                  is not just functional—it's beautiful, intuitive, and makes people's lives easier.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground">
-              <motion.div
-                className="flex items-center space-x-2 glass-card rounded-full px-4 py-2"
-                whileHover={{ scale: 1.05 }}
-              >
-                <MapPin className="w-4 h-4 text-primary" />
-                <span>Colombo, Sri Lanka</span>
-              </motion.div>
-              <motion.div
-                className="flex items-center space-x-2 glass-card rounded-full px-4 py-2"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Coffee className="w-4 h-4 text-primary" />
-                <span>Coffee Enthusiast</span>
-              </motion.div>
-            </div>
-
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button className="group glow-primary hover:glow-primary-intense transition-all duration-300 w-full sm:w-auto">
-                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
-                Download Resume
-                <motion.span
-                  className="ml-2"
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  ↓
-                </motion.span>
-              </Button>
-            </motion.div>
-          </motion.div>
-
-          {/* Stats & Quick Facts */}
-          <div className="space-y-6 md:space-y-8" ref={statsRef}>
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
-              {achievements.map((achievement, index) => (
-                <StatCard key={achievement.label} achievement={achievement} index={index} />
-              ))}
-            </div>
-
-            <motion.div variants={itemVariants}>
-              <Card className="glass-card border-primary/10 hover:border-primary/30 transition-all duration-500 overflow-hidden relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardContent className="p-4 md:p-6 relative">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <Award className="w-5 h-5 text-primary" />
+              <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                {[
+                  "Clean & maintainable code",
+                  "Pixel-perfect UI/UX",
+                  "High performance standards",
+                  "Responsive & accessible design",
+                ].map((item, i) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.5 + i * 0.1 }}
+                    className="flex items-center gap-3 group"
+                  >
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
+                      <div className="w-2 h-2 rounded-full bg-primary group-hover:bg-white" />
                     </div>
-                    <h4 className="font-semibold text-base md:text-lg">What I Bring</h4>
-                  </div>
-                  <ul className="space-y-3">
-                    {[
-                      "Clean, maintainable code architecture",
-                      "Performance-first mindset",
-                      "Strong communication & collaboration",
-                      "Continuous learning & adaptation",
-                    ].map((item, i) => (
-                      <motion.li
-                        key={i}
-                        className="flex items-center space-x-3 text-muted-foreground text-sm md:text-base"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: 0.5 + i * 0.1 }}
-                      >
-                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-electric flex-shrink-0" />
-                        <span>{item}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                    <span className="text-sm md:text-base font-medium group-hover:text-foreground transition-colors">
+                      {item}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.8 }}
+                className="mt-12"
+              >
+                <button
+                  onClick={scrollToContact}
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 active:scale-95 flex items-center justify-center gap-2 group"
+                >
+                  Let's Work Together
+                  <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
+                </button>
+              </motion.div>
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
