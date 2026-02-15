@@ -47,7 +47,8 @@ const Contact = () => {
     setFormState("submitting");
 
     try {
-      const response = await fetch("http://localhost:3001/api/contact", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -207,7 +208,7 @@ const Contact = () => {
                   type="submit"
                   disabled={formState !== "idle"}
                   className={`w-full h-12 md:h-20 rounded-xl md:rounded-[2rem] text-sm md:text-xl font-bold transition-all active:scale-[0.98] ${formState === "success" ? "bg-green-500 hover:bg-green-600" :
-                      formState === "error" ? "bg-red-500 hover:bg-red-600" : "glow-primary"
+                    formState === "error" ? "bg-red-500 hover:bg-red-600" : "glow-primary"
                     }`}
                 >
                   {formState === "idle" && (
