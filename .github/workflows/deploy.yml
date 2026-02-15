@@ -1,3 +1,4 @@
+# Deploy to GitHub Pages - Triggering fresh build after settings update
 name: Deploy to GitHub Pages
 
 on:
