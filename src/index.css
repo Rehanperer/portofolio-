@@ -494,6 +494,7 @@
     z-index: 10000;
     transform-origin: left;
     box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+    pointer-events: none;
   }
 
   @media (min-width: 768px) {
@@ -556,21 +557,17 @@
       -webkit-backdrop-filter: blur(8px);
     }
 
-    /* Small touch targets fix */
-    button,
-    a,
-    input,
-    select {
-      min-height: 44px;
-      min-width: 44px;
-    }
-
     /* Section padding adjustments */
     section {
       padding-top: 4rem !important;
       padding-bottom: 4rem !important;
       padding-left: 1rem !important;
       padding-right: 1rem !important;
+    }
+
+    /* Disable noise overlay on mobile - blocks nothing but wastes GPU */
+    .noise-overlay {
+      display: none !important;
     }
 
     /* Disable some heavy effects on mobile */
@@ -750,8 +747,9 @@
 /* Mobile Performance Optimizations */
 @media (max-width: 768px) {
 
-  /* Faster tap response - eliminates 300ms delay */
+  /* Instant tap feedback */
   * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     touch-action: manipulation;
   }
 
@@ -765,14 +763,6 @@
   .gradient-orb {
     will-change: transform;
     transform: translateZ(0);
-  }
-
-  /* Ensure minimum tap targets */
-  button,
-  a,
-  [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
   }
 
   /* Reduce box-shadow complexity on mobile */

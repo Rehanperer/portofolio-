@@ -125,11 +125,10 @@ const Contact = () => {
 
                 <div className="space-y-4 md:space-y-6">
                   {contactInfo.map((info) => (
-                    <motion.a
+                    <a
                       key={info.label}
                       href={info.href}
-                      whileHover={{ x: 10 }}
-                      className="flex items-center gap-4 group/item"
+                      className="flex items-center gap-4 group/item active:translate-x-1 transition-transform duration-150"
                     >
                       <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-white transition-all duration-300">
                         <info.icon className="w-5 h-5 md:w-6 md:h-6" />
@@ -138,7 +137,7 @@ const Contact = () => {
                         <p className="text-[10px] md:text-xs text-muted-foreground font-semibold uppercase tracking-widest">{info.label}</p>
                         <p className="text-sm md:text-xl font-bold text-foreground group-hover/item:text-primary transition-colors">{info.value}</p>
                       </div>
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </div>
