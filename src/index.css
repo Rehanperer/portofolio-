@@ -746,3 +746,39 @@
     scrollbar-width: none;
   }
 }
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+
+  /* Faster tap response - eliminates 300ms delay */
+  * {
+    touch-action: manipulation;
+  }
+
+  /* Reduce heavy blur effects on mobile */
+  .glass {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* GPU-accelerate gradient orbs */
+  .gradient-orb {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* Ensure minimum tap targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce box-shadow complexity on mobile */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+}

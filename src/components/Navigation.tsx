@@ -278,9 +278,9 @@ const Navigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {/* Backdrop blur */}
+            {/* Backdrop - tap anywhere to close */}
             <motion.div
-              className="absolute inset-0 bg-background/80 backdrop-blur-2xl"
+              className="absolute inset-0 bg-background/80 backdrop-blur-xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -288,12 +288,34 @@ const Navigation = () => {
             />
 
             <motion.div
-              className="absolute top-0 left-0 right-0 glass border-b border-primary/10 shadow-2xl pt-24 pb-12 px-6 rounded-b-[2rem]"
+              className="absolute top-0 left-0 right-0 glass border-b border-primary/10 shadow-2xl pt-6 pb-12 px-6 rounded-b-[2rem]"
               variants={menuVariants}
               initial="closed"
               animate="open"
               exit="closed"
             >
+              {/* Close button at top of menu */}
+              <div className="flex items-center justify-between mb-6">
+                <Badge
+                  variant="outline"
+                  className="glow-border-animated font-bold text-lg px-3 py-2 cursor-pointer"
+                  onClick={() => {
+                    scrollToSection("#hero");
+                    setIsOpen(false);
+                  }}
+                >
+                  <span className="text-gradient">RP</span>
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen(false)}
+                  className="w-12 h-12 rounded-xl bg-card/50 active:bg-primary/20"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
+
               <div className="flex flex-col space-y-2">
                 {navItems.map((item, i) => {
                   const isActive = activeSection === item.href.slice(1);
@@ -301,13 +323,12 @@ const Navigation = () => {
                     <motion.button
                       key={item.label}
                       onClick={() => scrollToSection(item.href)}
-                      className={`text-xl font-semibold py-4 px-6 rounded-2xl text-left transition-all flex items-center justify-between ${isActive
+                      className={`text-xl font-semibold py-4 px-6 rounded-2xl text-left transition-all flex items-center justify-between active:scale-[0.98] ${isActive
                         ? "text-primary bg-primary/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-card/50"
+                        : "text-muted-foreground active:text-foreground active:bg-card/50"
                         }`}
                       custom={i}
                       variants={menuItemVariants}
-                      whileTap={{ scale: 0.98 }}
                     >
                       {item.label}
                       {isActive && (
@@ -333,7 +354,7 @@ const Navigation = () => {
                       window.open("https://github.com/Rehanperer", "_blank");
                       setIsOpen(false);
                     }}
-                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50"
+                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
                   >
                     <Github className="h-5 w-5 mr-2" />
                     GitHub
@@ -345,7 +366,7 @@ const Navigation = () => {
                       window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank");
                       setIsOpen(false);
                     }}
-                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50"
+                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
                   >
                     <Linkedin className="h-5 w-5 mr-2" />
                     LinkedIn

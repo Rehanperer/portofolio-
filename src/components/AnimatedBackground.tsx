@@ -1,6 +1,27 @@
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const AnimatedBackground = () => {
+    const isMobile = useIsMobile();
+
+    // On mobile, render fewer orbs with simpler animations for performance
+    if (isMobile) {
+        return (
+            <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+                {/* Single primary gradient orb - CSS animation only, no JS */}
+                <div
+                    className="gradient-orb gradient-orb-primary w-[300px] h-[300px] -top-20 -left-20 animate-float-slow"
+                />
+                {/* Single accent orb */}
+                <div
+                    className="gradient-orb gradient-orb-electric w-[250px] h-[250px] top-1/3 -right-20 opacity-40 animate-float"
+                />
+                {/* Noise overlay for texture */}
+                <div className="noise-overlay" />
+            </div>
+        );
+    }
+
     return (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
             {/* Primary gradient orb */}
