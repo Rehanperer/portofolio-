@@ -166,7 +166,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-4 py-16 md:py-20 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-5 pt-20 pb-10 md:py-20 overflow-hidden"
     >
       {/* Decorative elements - visible on larger screens */}
       <div className="hidden md:block absolute top-32 left-10 w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-electric/30 blur-xl animate-float" />
@@ -189,16 +189,16 @@ const Hero = () => {
         <motion.div variants={itemVariants}>
           <Badge
             variant="outline"
-            className="mb-6 md:mb-8 glow-border-animated px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-base"
+            className="mb-5 md:mb-8 glow-border-animated px-4 md:px-4 py-2 md:py-2 text-sm md:text-base"
           >
-            <Sparkles className="w-3 h-3 md:w-4 md:h-4 mr-2 text-primary animate-pulse" />
+            <Sparkles className="w-4 h-4 md:w-4 md:h-4 mr-2 text-primary animate-pulse" />
             Available for Projects
           </Badge>
         </motion.div>
 
         {/* Main heading with 3D effect */}
-        <motion.div variants={itemVariants} className="mb-4 md:mb-8">
-          <h1 className="text-responsive-h1 font-bold leading-[1.1]">
+        <motion.div variants={itemVariants} className="mb-3 md:mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1]">
             <span className="block text-foreground mb-1 md:mb-2">Hi, I'm</span>
             <div className="flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4">
               <motion.span
@@ -214,16 +214,16 @@ const Hero = () => {
         {/* Typewriter effect */}
         <motion.div
           variants={itemVariants}
-          className="h-10 md:h-16 flex items-center justify-center mb-6 md:mb-8"
+          className="h-12 md:h-16 flex items-center justify-center mb-5 md:mb-8"
         >
-          <span className="text-lg md:text-3xl text-muted-foreground whitespace-nowrap">
+          <span className="text-xl sm:text-2xl md:text-3xl text-muted-foreground whitespace-nowrap">
             I'm a{" "}
-            <span className="text-gradient font-semibold inline-block min-w-[160px] sm:min-w-[200px] md:min-w-[280px] text-left">
+            <span className="text-gradient font-semibold inline-block min-w-[180px] sm:min-w-[220px] md:min-w-[280px] text-left">
               {displayText}
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block w-[2px] md:w-[3px] h-5 md:h-8 bg-primary ml-1 align-middle"
+                className="inline-block w-[2px] md:w-[3px] h-6 md:h-8 bg-primary ml-1 align-middle"
               />
             </span>
           </span>
@@ -232,7 +232,7 @@ const Hero = () => {
         {/* Description */}
         <motion.p
           variants={itemVariants}
-          className="text-responsive-p text-muted-foreground mb-8 md:mb-10 max-w-2xl mx-auto px-2 md:px-4"
+          className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 md:mb-10 max-w-2xl mx-auto px-1 md:px-4 leading-relaxed"
         >
           I build clean, fast web stuff. Usually found tinkering with
           new tech or making things look pixel-perfect.
@@ -241,11 +241,11 @@ const Hero = () => {
         {/* CTA Buttons */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-10 md:mb-16"
+          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-10 md:mb-16 w-full px-4 sm:px-0"
         >
           <MagneticButton
             onClick={scrollToProjects}
-            className="w-full sm:w-auto h-12 md:h-auto group glow-primary hover:glow-primary-intense transition-all duration-300 text-sm md:text-lg px-6 md:px-8"
+            className="w-full sm:w-auto h-14 md:h-auto group glow-primary hover:glow-primary-intense transition-all duration-300 text-base md:text-lg px-8 md:px-8"
           >
             View My Work
             <motion.span
@@ -260,7 +260,7 @@ const Hero = () => {
           <MagneticButton
             variant="outline"
             onClick={scrollToContact}
-            className="w-full sm:w-auto h-12 md:h-auto glow-border hover:bg-card-hover transition-all duration-300 text-sm md:text-lg px-6 md:px-8"
+            className="w-full sm:w-auto h-14 md:h-auto glow-border hover:bg-card-hover transition-all duration-300 text-base md:text-lg px-8 md:px-8"
           >
             Get In Touch
           </MagneticButton>
@@ -269,7 +269,7 @@ const Hero = () => {
         {/* Tech Stack Pills */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap justify-center gap-1.5 md:gap-3 max-w-2xl mx-auto px-2 md:px-4"
+          className="flex flex-wrap justify-center gap-2.5 md:gap-3 max-w-2xl mx-auto px-2 md:px-4"
         >
           {techStack.map((tech, index) => (
             <motion.div
@@ -287,7 +287,7 @@ const Hero = () => {
             >
               <Badge
                 variant="secondary"
-                className={`text-[10px] md:text-sm py-1 md:py-2 px-2 md:px-4 cursor-default
+                className={`text-xs md:text-sm py-1.5 md:py-2 px-3 md:px-4 cursor-default
                   bg-gradient-to-r ${tech.color} bg-clip-text text-transparent
                   border border-primary/20 hover:border-primary/50 
                   hover:shadow-lg hover:shadow-primary/20 transition-all duration-300
