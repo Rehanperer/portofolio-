@@ -215,6 +215,24 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => window.open("https://github.com/Rehanperer", "_blank")}
+              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+            >
+              <Github className="h-5 w-5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank")}
+              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+            >
+              <Linkedin className="h-5 w-5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="w-11 h-11 hover:bg-primary/10 rounded-xl"
             >

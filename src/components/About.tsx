@@ -44,9 +44,8 @@ const About = () => {
 
   const achievements = [
     { label: "Years Experience", number: "2", suffix: "+", icon: Award },
-    { label: "Projects Completed", number: "30", suffix: "+", icon: Briefcase },
-    { label: "Cups of Coffee", number: "500", suffix: "+", icon: Coffee },
-    { label: "Happy Clients", number: "15", suffix: "+", icon: Sparkles },
+    { label: "Projects Completed", number: "15", suffix: "+", icon: Briefcase },
+    { label: "Happy Clients", number: "10", suffix: "+", icon: Sparkles },
   ];
 
   const scrollToContact = () => {
@@ -119,16 +118,15 @@ const About = () => {
               </h3>
               <div className="space-y-4 md:space-y-6 text-responsive-p text-muted-foreground leading-relaxed">
                 <p>
-                  I'm a passionate full-stack developer dedicated to building
-                  high-performance, user-centric web applications. My background in
-                  engineering helps me approach problems with a structured lens while
-                  maintaining a keen eye for design aesthetics.
+                  I'm a developer who just loves building things that work well and
+                  look even better. My coding background keeps me focused on the
+                  details, but I’ve always got a soft spot for great design.
                 </p>
                 <p>
                   With <span className="text-foreground font-semibold">2+ years</span> of
-                  hands-on experience, I specialize in crafting seamless digital
-                  journeys using modern frameworks. My goal is to build technology
-                  that not only looks beautiful but solves real-world problems.
+                  hands-on experience, I focus on building things people actually
+                  enjoy using. My goal is simple: create tech that solves problems
+                  and looks great doing it.
                 </p>
               </div>
 

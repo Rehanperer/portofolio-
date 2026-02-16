@@ -31,40 +31,88 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: "E-Commerce Platform",
-    description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL.",
-    longDescription: "A comprehensive e-commerce platform built with modern technologies. Features include user authentication, product catalog, shopping cart, payment processing via Stripe, and a complete admin dashboard for inventory management.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
-    tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
+    title: "LeoLynk",
+    description: "AI-powered comprehensive management ecosystem for Leo Clubs.",
+    longDescription: "LeoLynk is a state-of-the-art management platform designed specifically for Leo Clubs. It features deep AI integration with Llama 3.3, an interactive geospatial impact map of Sri Lanka, a custom public CMS for club websites, and gamified learning tools. The system streamlines club operations, financial reporting, and cross-club collaboration in a unified, high-performance interface.",
+    image: "/leolynk.png",
+    tags: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Groq AI", "Vercel"],
     category: "Full Stack",
     github: "https://github.com/Rehanperer",
-    link: "https://github.com/Rehanperer",
-    features: ["Real-time Inventory", "Secure Checkout", "Admin Dashboard"],
-    architecture: ["Microservices", "REST API", "State Management"]
+    link: "https://leolynk.live/",
+    features: ["AI-Powered Assistant", "Interactive Impact Map", "Public Website Builder", "Gamified Arcade"],
+    architecture: ["App Router", "JWT Auth", "Prisma ORM", "Real-time AI"]
   },
   {
-    title: "AI Chat Interface",
-    description: "Modern chat interface for AI conversations with real-time streaming.",
-    longDescription: "An advanced chat interface for AI interactions featuring real-time message streaming, markdown rendering, and conversation history context.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-    tags: ["Next.js", "OpenAI", "TailwindCSS"],
-    category: "AI",
-    github: "https://github.com/Rehanperer",
-    link: "https://github.com/Rehanperer",
-    features: ["Streaming Responses", "Context Awareness", "Markdown Support"],
-    architecture: ["Serverless Functions", "WebSockets", "Vector DB"]
-  },
-  {
-    title: "Task Management",
-    description: "Collaborative task management application with real-time updates.",
-    longDescription: "A collaborative task management platform featuring drag-and-drop kanban boards, team workspaces, and real-time synchronization.",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&q=80",
-    tags: ["React", "Firebase", "Framer Motion"],
+    title: "ASCENLK",
+    description: "The ultimate student-led Esports platform in Sri Lanka.",
+    longDescription: "ASCENLK is a high-octane Esports management system designed for the ultimate student-led gauntlet. It features an immersive HUD navigation, scroll-expanding cinematic media, and advanced text animations including scrambled text effects. Built with a focus on performance and raw aesthetic, the platform integrates Spline 3D scenes and a robust registration system for nationwide tournaments.",
+    image: "/ascenlk.png",
+    tags: ["React 19", "Framer Motion", "Spline 3D", "Teko Fonts", "GSAP", "Cloudflare"],
     category: "Frontend",
-    github: "https://github.com/Rehanperer",
-    link: "https://github.com/Rehanperer",
-    features: ["Drag & Drop", "Team Channels", "Notification System"],
-    architecture: ["Real-time DB", "Optimistic Updates", "Canvas API"]
+    github: "https://github.com/Rehanperer/AscentLk-ascentlk",
+    link: "https://ascentlk.com/",
+    features: ["Cinematic Scroll Effects", "HUD Navigation System", "Esports Management", "Advanced Text Scrambling"],
+    architecture: ["HUD-Based Design", "Lazy-Loaded Modules", "Glassmorphic UI", "High-Performance Assets"]
+  },
+  {
+    title: "NOTOC",
+    description: "Specialized notification generator for Qatar Executive aviation.",
+    longDescription: "NOTOC (Notice to Captain) is a mission-critical tool developed for Qatar Executive to streamline the generation of Special Load Notifications. The application replaces manual processes with a sleek digital workflow, featuring built-in digital signature support, high-fidelity PDF export, and real-time validation of dangerous goods data. Built with React and optimized for precision and speed.",
+    image: "/notoc.png",
+    tags: ["React", "Vite", "Tailwind CSS", "jspdf", "html2canvas"],
+    category: "Full Stack",
+    github: "https://github.com/Rehanperer/special-load-notification-generator",
+    link: "https://rehanperer.github.io/special-load-notification-generator/",
+    features: ["Automated PDF Generation", "Digital Signature Pad", "Aviation Standards Compliance", "Dynamic Input Validation"],
+    architecture: ["State-Driven Forms", "Client-Side Export", "Utility-First Styling", "PWA Ready"]
+  },
+  {
+    title: "Ethos Leo Club",
+    description: "Official digital presence for Ethos International College Leo Club.",
+    longDescription: "The official website for the Ethos International College Leo Club, designed to showcase the club's impact and legacy. Built with Next.js 14, the platform features a unique Dome Gallery for visual storytelling, an interactive EXCO team directory, a detailed project showcase, and dynamic impact statistics. It serves as a central hub for members and potential volunteers to engage with the club's mission.",
+    image: "/ethos-leo.png",
+    tags: ["Next.js 14", "Tailwind CSS", "Framer Motion", "Lucide", "TypeScript"],
+    category: "Frontend",
+    github: "https://github.com/Rehanperer/leo-2025-website",
+    link: "https://www.eicleos.org/",
+    features: ["Unique Dome Gallery", "Interactive EXCO Directory", "Dynamic Impact Stats", "Legacy Project Showcase"],
+    architecture: ["App Router", "Server Components", "Tailwind Design System", "Responsive HUD Styling"]
+  },
+  {
+    title: "Flight Time Logger",
+    description: "Precision flight tracking utility for Qatar Executive pilots.",
+    longDescription: "A mission-critical PWA designed for Qatar Executive pilots to accurately log and track flight times. The application features an offline-first architecture using PWA standards, secure local data persistence, and an intuitive HUD-inspired interface. It streamlines log entry for complex flight schedules and ensures data reliability even without an active internet connection.",
+    image: "/flight-logger.png",
+    tags: ["React 18", "Vite", "Tailwind CSS", "PWA", "LocalStorage"],
+    category: "Full Stack",
+    github: "https://github.com/Rehanperer/flight-time-logger",
+    link: "https://rehanperer.github.io/flight-time-logger/",
+    features: ["Offline PWA Support", "Precision Time Tracking", "Secure Data Persistence", "Interactive Flight History"],
+    architecture: ["Offline-First", "State-Driven UI", "Modular Architecture", "PWA Manifest Integration"]
+  },
+  {
+    title: "Cargo Weigh",
+    description: "Real-time cargo load and balance tool for Qatar Executive.",
+    longDescription: "A specialized utility for ground crew and pilots to perform real-time cargo weight and balance calculations. Built with React 19 and Vite, the tool allows for dynamic load adjustments, fleet-specific configurations (G650ER, G500, etc.), and immediate safety balance checks. It significantly reduces the risk of manual calculation errors in mission-critical aviation operations.",
+    image: "/cargo-weigh.png",
+    tags: ["React 19", "Vite", "Tailwind CSS", "Framer Motion", "Aviation"],
+    category: "Full Stack",
+    github: "https://github.com/Rehanperer/Aviation-cargo-tool",
+    link: "https://aviation-cargo-tool.vercel.app/",
+    features: ["Dynamic Load Calculation", "Fleet Safety Validation", "Real-time Balance Checks", "Responsive HUD Dashboard"],
+    architecture: ["Component-Based", "State-Driven Logic", "Utility-First Styling", "Aviation Compliance"]
+  },
+  {
+    title: "Resonance",
+    description: "Premium e-commerce platform for a high-end clothing brand.",
+    longDescription: "Resonance is a sophisticated e-commerce solution built with the latest web technologies. It features a seamless shopping experience with secure authentication via NextAuth, a high-performance product catalog powered by Next.js 16 server components, and a robust database architecture using Prisma. The design reflects the brand's premium identity with smooth Framer Motion animations and a minimal, high-impact aesthetic.",
+    image: "/resonance.png",
+    tags: ["Next.js 16", "Tailwind 4", "Prisma", "NextAuth", "React 19"],
+    category: "Full Stack",
+    github: "https://github.com/Rehanperer/clothing-website",
+    link: "https://www.resonancelk.cc/",
+    features: ["Secure Auth System", "Dynamic Product Catalog", "Premium Design System", "Optimized Search/Filter"],
+    architecture: ["Server-Side Rendering", "Type-Safe API", "Relational Schema", "Edge-Ready Infrastructure"]
   }
 ];
 
@@ -204,10 +252,13 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
 const Projects = () => {
   const [filter, setFilter] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const filteredProjects = projectsData.filter((p) =>
     filter === "All" ? true : p.category === filter
   );
+
+  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
   return (
     <section id="projects" className="py-20 md:py-32 relative overflow-hidden px-4">
@@ -255,7 +306,7 @@ const Projects = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
         >
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
+            {displayedProjects.map((project, index) => (
               <ProjectCard
                 key={project.title}
                 project={project}
@@ -264,6 +315,22 @@ const Projects = () => {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {!showAll && filteredProjects.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12 text-center"
+          >
+            <Button
+              onClick={() => setShowAll(true)}
+              className="h-12 px-10 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all duration-300 font-semibold"
+            >
+              View All Projects
+            </Button>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -73,22 +73,6 @@ const Index = () => {
                 >
                   © {new Date().getFullYear()}{" "}
                   <span className="text-gradient font-medium">Rehan Perera</span>
-                  . Crafted with{" "}
-                  <motion.span
-                    className="inline-block"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    ❤️
-                  </motion.span>{" "}
-                  and lots of{" "}
-                  <motion.span
-                    className="inline-block"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    ☕
-                  </motion.span>
                 </motion.p>
               </div>
             </footer>

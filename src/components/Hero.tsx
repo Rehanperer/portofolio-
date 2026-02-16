@@ -10,7 +10,7 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const roles = [
-    "Full-Stack Developer",
+    "Full Stack Developer",
     "UI/UX Enthusiast",
     "Problem Solver",
     "Tech Innovator",
@@ -234,8 +234,8 @@ const Hero = () => {
           variants={itemVariants}
           className="text-responsive-p text-muted-foreground mb-8 md:mb-10 max-w-2xl mx-auto px-2 md:px-4"
         >
-          Crafting beautiful digital experiences with modern technologies.
-          Turning ideas into reality, one line of code at a time.
+          I build clean, fast web stuff. Usually found tinkering with
+          new tech or making things look pixel-perfect.
         </motion.p>
 
         {/* CTA Buttons */}
