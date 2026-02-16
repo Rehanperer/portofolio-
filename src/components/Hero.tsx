@@ -63,33 +63,45 @@ const Hero = () => {
     }
   };
 
-  // Magnetic button effect
+  // Magnetic button effect - desktop only, plain button on mobile
   const MagneticButton = ({ children, onClick, variant = "default", className = "" }: any) => {
     const ref = useRef<HTMLButtonElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
+    const isMobileView = typeof window !== "undefined" && window.innerWidth < 768;
 
     const springConfig = { damping: 15, stiffness: 150 };
     const xSpring = useSpring(x, springConfig);
     const ySpring = useSpring(y, springConfig);
 
     const handleMouseMove = (e: React.MouseEvent) => {
-      if (!ref.current) return;
+      if (!ref.current || isMobileView) return;
       const rect = ref.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-
-      // Only apply effect on desktop
-      if (window.innerWidth >= 768) {
-        x.set((e.clientX - centerX) * 0.15);
-        y.set((e.clientY - centerY) * 0.15);
-      }
+      x.set((e.clientX - centerX) * 0.15);
+      y.set((e.clientY - centerY) * 0.15);
     };
 
     const handleMouseLeave = () => {
       x.set(0);
       y.set(0);
     };
+
+    // On mobile, skip motion wrapper entirely for instant tap response
+    if (isMobileView) {
+      return (
+        <Button
+          ref={ref}
+          size="lg"
+          onClick={onClick}
+          variant={variant}
+          className={`btn-magnetic btn-glow active:scale-[0.97] transition-transform duration-100 ${className}`}
+        >
+          {children}
+        </Button>
+      );
+    }
 
     return (
       <motion.div
