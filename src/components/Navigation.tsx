@@ -15,7 +15,6 @@ const Navigation = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Update active section based on scroll position
       const sections = ["hero", "about", "projects", "skills", "contact"];
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
@@ -74,36 +73,6 @@ const Navigation = () => {
       },
     },
   } as any;
-
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      y: -20,
-      transition: {
-        duration: 0.3,
-      },
-    },
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  } as any;
-
-  const menuItemVariants = {
-    closed: { opacity: 0, x: -20 },
-    open: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.4,
-      },
-    }),
-  };
 
   return (
     <motion.nav
@@ -210,13 +179,13 @@ const Navigation = () => {
             </motion.div>
           </div>
 
-          {/* Mobile Menu Button - Larger tap targets */}
+          {/* Mobile Menu Button - Pure CSS icon swap, no Framer Motion */}
           <div className="md:hidden flex items-center space-x-1">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => window.open("https://github.com/Rehanperer", "_blank")}
-              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+              className="w-11 h-11 active:bg-primary/10 rounded-xl"
             >
               <Github className="h-5 w-5" />
             </Button>
@@ -225,7 +194,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank")}
-              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+              className="w-11 h-11 active:bg-primary/10 rounded-xl"
             >
               <Linkedin className="h-5 w-5" />
             </Button>
@@ -234,7 +203,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+              className="w-11 h-11 active:bg-primary/10 rounded-xl"
             >
               {theme === "dark" ? (
                 <Sun className="h-5 w-5" />
@@ -247,136 +216,105 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="w-11 h-11 hover:bg-primary/10 rounded-xl"
+              className="w-11 h-11 active:bg-primary/10 rounded-xl"
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={isOpen ? "close" : "menu"}
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {isOpen ? (
-                    <X className="h-6 w-6" />
-                  ) : (
-                    <Menu className="h-6 w-6" />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="md:hidden fixed inset-0 z-40"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {/* Backdrop - tap anywhere to close */}
-            <motion.div
-              className="absolute inset-0 bg-background/80 backdrop-blur-xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-            />
+      {/* Mobile Navigation Menu - Pure CSS transitions, no Framer Motion */}
+      <div className="md:hidden">
+        {/* Backdrop */}
+        <div
+          className={`fixed inset-0 z-40 bg-background/80 transition-opacity duration-200 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            }`}
+          style={{ willChange: "opacity" }}
+          onClick={() => setIsOpen(false)}
+        />
 
-            <motion.div
-              className="absolute top-0 left-0 right-0 glass border-b border-primary/10 shadow-2xl pt-6 pb-12 px-6 rounded-b-[2rem]"
-              variants={menuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
+        {/* Menu Panel */}
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 bg-background/95 border-b border-primary/10 shadow-2xl pt-6 pb-10 px-6 rounded-b-[2rem] transition-transform duration-200 ease-out ${isOpen ? "translate-y-0" : "-translate-y-full"
+            }`}
+          style={{ willChange: "transform" }}
+        >
+          {/* Close button at top */}
+          <div className="flex items-center justify-between mb-6">
+            <Badge
+              variant="outline"
+              className="glow-border-animated font-bold text-lg px-3 py-2 cursor-pointer"
+              onClick={() => {
+                scrollToSection("#hero");
+              }}
             >
-              {/* Close button at top of menu */}
-              <div className="flex items-center justify-between mb-6">
-                <Badge
-                  variant="outline"
-                  className="glow-border-animated font-bold text-lg px-3 py-2 cursor-pointer"
-                  onClick={() => {
-                    scrollToSection("#hero");
-                    setIsOpen(false);
-                  }}
-                >
-                  <span className="text-gradient">RP</span>
-                </Badge>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsOpen(false)}
-                  className="w-12 h-12 rounded-xl bg-card/50 active:bg-primary/20"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
+              <span className="text-gradient">RP</span>
+            </Badge>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(false)}
+              className="w-12 h-12 rounded-xl bg-card/50 active:bg-primary/20"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+          </div>
 
-              <div className="flex flex-col space-y-2">
-                {navItems.map((item, i) => {
-                  const isActive = activeSection === item.href.slice(1);
-                  return (
-                    <motion.button
-                      key={item.label}
-                      onClick={() => scrollToSection(item.href)}
-                      className={`text-xl font-semibold py-4 px-6 rounded-2xl text-left transition-all flex items-center justify-between active:scale-[0.98] ${isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-muted-foreground active:text-foreground active:bg-card/50"
-                        }`}
-                      custom={i}
-                      variants={menuItemVariants}
-                    >
-                      {item.label}
-                      {isActive && (
-                        <motion.div
-                          layoutId="mobileActive"
-                          className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))]"
-                        />
-                      )}
-                    </motion.button>
-                  );
-                })}
-
-                {/* Social links in mobile menu */}
-                <motion.div
-                  className="flex items-center gap-3 pt-6 mt-4 border-t border-border/50"
-                  custom={navItems.length}
-                  variants={menuItemVariants}
+          <div className="flex flex-col space-y-2">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.slice(1);
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`text-xl font-semibold py-4 px-6 rounded-2xl text-left transition-colors duration-150 flex items-center justify-between active:scale-[0.98] ${isActive
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground active:text-foreground active:bg-card/50"
+                    }`}
                 >
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      window.open("https://github.com/Rehanperer", "_blank");
-                      setIsOpen(false);
-                    }}
-                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
-                  >
-                    <Github className="h-5 w-5 mr-2" />
-                    GitHub
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank");
-                      setIsOpen(false);
-                    }}
-                    className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
-                  >
-                    <Linkedin className="h-5 w-5 mr-2" />
-                    LinkedIn
-                  </Button>
-                </motion.div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  {item.label}
+                  {isActive && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))]" />
+                  )}
+                </button>
+              );
+            })}
+
+            {/* Social links in mobile menu */}
+            <div className="flex items-center gap-3 pt-6 mt-4 border-t border-border/50">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  window.open("https://github.com/Rehanperer", "_blank");
+                  setIsOpen(false);
+                }}
+                className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
+              >
+                <Github className="h-5 w-5 mr-2" />
+                GitHub
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  window.open("https://www.linkedin.com/in/rehan-perera-09a9752b6", "_blank");
+                  setIsOpen(false);
+                }}
+                className="flex-1 h-14 rounded-2xl glow-border border-primary/20 bg-card/50 active:bg-primary/20"
+              >
+                <Linkedin className="h-5 w-5 mr-2" />
+                LinkedIn
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.nav>
   );
 };
