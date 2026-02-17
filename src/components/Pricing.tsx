@@ -52,7 +52,8 @@ const pricingTiers = [
             "Advanced Security",
             "CI/CD Pipelines",
             "24/7 Priority Support",
-            "Custom SLA"
+            "Custom SLA",
+            "More features can be requested"
         ],
         recommended: false,
         blur: true,
@@ -140,8 +141,8 @@ const Pricing = () => {
                             key={tier.name}
                             index={index}
                             className={`relative p-8 rounded-[2rem] border transition-all duration-300 group ${tier.recommended
-                                    ? "glass border-primary/30 shadow-2xl shadow-primary/10"
-                                    : "bg-card/30 border-primary/10 hover:border-primary/30"
+                                ? "glass border-primary/30 shadow-2xl shadow-primary/10"
+                                : "bg-card/30 border-primary/10 hover:border-primary/30"
                                 } ${tier.blur ? "backdrop-blur-xl bg-background/40" : ""}`}
                         >
                             {tier.recommended && (
@@ -186,8 +187,8 @@ const Pricing = () => {
                                 <Button
                                     onClick={() => handleSelect(tier.name)}
                                     className={`w-full h-12 md:h-14 rounded-xl font-bold text-base transition-all ${tier.recommended
-                                            ? "glow-primary hover:scale-[1.02]"
-                                            : "bg-primary/10 text-primary hover:bg-primary/20 hover:scale-[1.02]"
+                                        ? "glow-primary hover:scale-[1.02]"
+                                        : "bg-primary/10 text-primary hover:bg-primary/20 hover:scale-[1.02]"
                                         } ${isMobile ? "active:scale-95" : ""}`}
                                 >
                                     Choose {tier.name}
