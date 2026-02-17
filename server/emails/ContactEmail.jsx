@@ -9,14 +9,14 @@ import {
     Preview,
     Section,
     Text,
-    Img,
+    Button,
 } from '@react-email/components';
 import * as React from 'react';
 
 export const ContactEmail = ({ name }) => (
     <Html>
         <Head />
-        <Preview>Thanks for reaching out, {name}!</Preview>
+        <Preview>Thank you for connecting with Rehan Perera</Preview>
         <Body style={main}>
             <Container style={container}>
                 <Section style={header}>
@@ -25,16 +25,31 @@ export const ContactEmail = ({ name }) => (
                 <Section style={section}>
                     <Text style={text}>Hi {name},</Text>
                     <Text style={text}>
-                        Thank you for reaching out to me through my portfolio. I've received your message and will get back to you as soon as possible (usually within 24 hours).
+                        Thank you for reaching out. I truly appreciate you taking the time to connect.
                     </Text>
                     <Text style={text}>
-                        In the meantime, feel free to check out my latest work on GitHub or connect with me on LinkedIn.
+                        I have received your message and will review it shortly. You can expect a personal response from me within 24 hours.
                     </Text>
+                    <Text style={text}>
+                        In the meantime, I invite you to explore my latest projects or connect with me professionally:
+                    </Text>
+
+                    <Section style={buttonContainer}>
+                        <Button style={button} href="https://github.com/Rehanperer">
+                            View GitHub
+                        </Button>
+                        <Button style={buttonSecondary} href="https://www.linkedin.com/in/rehan-perera-09a9752b6/">
+                            Connect on LinkedIn
+                        </Button>
+                    </Section>
+
                     <Hr style={hr} />
                     <Text style={footer}>
-                        Rehan Perera — Full-Stack Developer
+                        Best Regards,
                         <br />
-                        Colombo, Sri Lanka
+                        <strong>Rehan Perera</strong>
+                        <br />
+                        Full-Stack Developer | Colombo, Sri Lanka
                     </Text>
                 </Section>
             </Container>
@@ -65,28 +80,65 @@ const h1 = {
     fontSize: '32px',
     fontWeight: 'bold',
     margin: '0',
+    letterSpacing: '-0.5px',
 };
 
 const section = {
-    padding: '24px',
+    padding: '32px',
     backgroundColor: '#0f172a',
-    borderRadius: '16px',
+    borderRadius: '20px',
     border: '1px solid #1e293b',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
 };
 
 const text = {
     color: '#cbd5e1',
     fontSize: '16px',
     lineHeight: '26px',
+    marginBottom: '20px',
+};
+
+const buttonContainer = {
+    padding: '12px 0 0',
+    display: 'flex',
+    gap: '16px',
+    justifyContent: 'center',
+};
+
+const button = {
+    backgroundColor: '#3b82f6',
+    borderRadius: '12px',
+    color: '#fff',
+    fontSize: '14px',
+    fontWeight: '600',
+    textDecoration: 'none',
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: '12px 24px',
+    marginRight: '12px',
+};
+
+const buttonSecondary = {
+    backgroundColor: 'transparent',
+    borderRadius: '12px',
+    border: '1px solid #3b82f6',
+    color: '#3b82f6',
+    fontSize: '14px',
+    fontWeight: '600',
+    textDecoration: 'none',
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: '12px 24px',
 };
 
 const hr = {
     borderColor: '#1e293b',
-    margin: '20px 0',
+    margin: '32px 0 24px',
 };
 
 const footer = {
     color: '#64748b',
-    fontSize: '12px',
+    fontSize: '14px',
+    lineHeight: '22px',
     textAlign: 'center',
 };

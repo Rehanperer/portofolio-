@@ -27,30 +27,35 @@ app.post('/api/contact', async (req, res) => {
         // Render the React Email template
         const emailHtml = await render(React.createElement(ContactEmail, { name }));
 
-        // Send both emails using Resend batch API
-        const response = await resend.batch.send([
-            {
-                from: 'Portfolio <onboarding@resend.dev>',
-                to: process.env.YOUR_EMAIL || 'rehanbusiness007@gmail.com',
-                subject: `New Project Inquiry: ${category} from ${name}`,
-                text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`,
-            },
-            {
+        // 1. Send Admin Notification (Critical)
+        const { data: adminData, error: adminError } = await resend.emails.send({
+            from: 'Portfolio Contact <onboarding@resend.dev>',
+            to: process.env.YOUR_EMAIL || 'rehanbusiness007@gmail.com',
+            subject: `New Project Inquiry: ${category} from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`,
+        });
+
+        if (adminError) {
+            console.error('Admin Email Failed:', adminError);
+            return res.status(500).json({ error: 'Failed to send notification email', details: adminError });
+        }
+
+        // 2. Send Auto-Reply (Optional - might fail on free tier if email unverified)
+        try {
+            await resend.emails.send({
                 from: 'Rehan Perera <onboarding@resend.dev>',
                 to: email,
                 subject: 'Message Received - Rehan Perera',
                 html: emailHtml,
-            }
-        ]);
-
-        console.log('Resend Response:', response);
-
-        if (response.error) {
-            console.error('Resend Error:', response.error);
-            return res.status(500).json({ error: 'Failed to send emails via Resend' });
+            });
+        } catch (autoReplyError) {
+            console.warn('Auto-reply failed (likely unverified email on free tier):', autoReplyError);
+            // We do NOT fail the request here, as the main message was sent.
         }
 
-        res.status(200).json({ success: true, message: 'Emails sent successfully', data: response.data });
+        res.status(200).json({ success: true, message: 'Message sent successfully', data: adminData });
+
+
     } catch (error) {
         console.error('System error sending emails:', error);
         res.status(500).json({ error: 'Failed to send emails due to internal error' });
