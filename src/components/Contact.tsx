@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Mail,
   Phone,
@@ -76,39 +77,48 @@ const Contact = () => {
     "Other"
   ];
 
+  const isMobile = useIsMobile();
+
   return (
     <section id="contact" className="py-20 md:py-32 relative overflow-hidden px-4">
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-radial from-primary/10 via-background/0 to-background/0 pointer-events-none" />
-      <div className="absolute top-1/4 -right-20 w-80 h-80 bg-electric/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float-delayed" />
+      {/* Decorative Orbs - desktop only */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-radial from-primary/10 via-background/0 to-background/0 pointer-events-none" />
+          <div className="absolute top-1/4 -right-20 w-80 h-80 bg-electric/10 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float-delayed" />
+        </>
+      )}
 
       <div className="container relative z-10 mx-auto max-w-6xl">
         <div className="text-center mb-12 md:mb-20">
           <Badge variant="outline" className="mb-4 glow-border px-4 py-1.5 text-sm">
             Get In Touch
           </Badge>
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="text-responsive-h2 font-bold mb-4 md:mb-6 text-foreground"
-          >
-            Let's Start a <span className="text-gradient">Conversation</span>
-          </motion.h2>
+          {isMobile ? (
+            <h2 className="text-responsive-h2 font-bold mb-4 text-foreground">
+              Let's Start a <span className="text-gradient">Conversation</span>
+            </h2>
+          ) : (
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="text-responsive-h2 font-bold mb-4 md:mb-6 text-foreground"
+            >
+              Let's Start a <span className="text-gradient">Conversation</span>
+            </motion.h2>
+          )}
           <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-electric mx-auto rounded-full glow-primary" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
           {/* Info Side */}
           <div className="lg:col-span-5 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+            <div
               className="glass p-6 md:p-10 rounded-[2rem] border border-primary/10 shadow-2xl relative overflow-hidden group"
             >
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
+              {!isMobile && <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />}
               <div className="relative space-y-6 md:space-y-8">
                 <div className="flex items-center gap-3">
                   <div className="p-1 px-3 rounded-full bg-green-500/10 border border-green-500/20 flex items-center gap-2">
@@ -141,15 +151,12 @@ const Contact = () => {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Form Side */}
           <div className="lg:col-span-7">
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+            <div
               className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] border border-primary/10 shadow-2xl"
             >
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-8">
@@ -221,7 +228,7 @@ const Contact = () => {
                   {formState === "error" && "Failed to Send"}
                 </Button>
               </form>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

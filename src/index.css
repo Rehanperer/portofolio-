@@ -755,8 +755,8 @@
 
   /* Reduce heavy blur effects on mobile */
   .glass {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
   }
 
   /* GPU-accelerate gradient orbs */
@@ -771,4 +771,41 @@
   .shadow-2xl {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   }
+
+  /* Disable constant pulse animations on mobile */
+  .animate-pulse {
+    animation: none !important;
+  }
+}
+
+/* CSS-only cursor blink for mobile typewriter */
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Skills auto-play progress bar (CSS only, no Framer Motion) */
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.animate-progress-bar {
+  animation: progressFill 5s linear forwards;
 }

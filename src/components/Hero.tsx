@@ -3,11 +3,13 @@ import { Badge } from "@/components/ui/badge";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { ArrowDown, Sparkles } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Hero = () => {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const isMobile = useIsMobile();
 
   const roles = [
     "Full Stack Developer",
@@ -63,45 +65,22 @@ const Hero = () => {
     }
   };
 
-  // Magnetic button effect - desktop only, plain button on mobile
-  const MagneticButton = ({ children, onClick, variant = "default", className = "" }: any) => {
+  // Desktop-only magnetic button
+  const DesktopMagneticButton = ({ children, onClick, variant = "default", className = "" }: any) => {
     const ref = useRef<HTMLButtonElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const isMobileView = typeof window !== "undefined" && window.innerWidth < 768;
-
     const springConfig = { damping: 15, stiffness: 150 };
     const xSpring = useSpring(x, springConfig);
     const ySpring = useSpring(y, springConfig);
 
     const handleMouseMove = (e: React.MouseEvent) => {
-      if (!ref.current || isMobileView) return;
+      if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      x.set((e.clientX - centerX) * 0.15);
-      y.set((e.clientY - centerY) * 0.15);
+      x.set((e.clientX - (rect.left + rect.width / 2)) * 0.15);
+      y.set((e.clientY - (rect.top + rect.height / 2)) * 0.15);
     };
-
-    const handleMouseLeave = () => {
-      x.set(0);
-      y.set(0);
-    };
-
-    // On mobile, skip motion wrapper entirely for instant tap response
-    if (isMobileView) {
-      return (
-        <Button
-          ref={ref}
-          size="lg"
-          onClick={onClick}
-          variant={variant}
-          className={`btn-magnetic btn-glow active:scale-[0.97] transition-transform duration-100 ${className}`}
-        >
-          {children}
-        </Button>
-      );
-    }
+    const handleMouseLeave = () => { x.set(0); y.set(0); };
 
     return (
       <motion.div
@@ -110,86 +89,113 @@ const Hero = () => {
         onMouseLeave={handleMouseLeave}
         whileTap={{ scale: 0.95 }}
       >
-        <Button
-          ref={ref}
-          size="lg"
-          onClick={onClick}
-          variant={variant}
-          className={`btn-magnetic btn-glow ${className}`}
-        >
+        <Button ref={ref} size="lg" onClick={onClick} variant={variant}
+          className={`btn-magnetic btn-glow ${className}`}>
           {children}
         </Button>
       </motion.div>
     );
   };
 
-  // Animation variants
+  const name = "Rehan Perera";
+
+  // ── MOBILE VERSION ── Ultra-lightweight, no Framer Motion at all ──
+  if (isMobile) {
+    return (
+      <section id="hero" className="relative min-h-screen flex items-center justify-center px-5 pt-20 pb-10 overflow-hidden">
+        <div className="relative z-20 text-center max-w-5xl mx-auto w-full">
+          {/* Badge */}
+          <div>
+            <Badge variant="outline" className="mb-5 glow-border-animated px-4 py-2 text-sm">
+              <Sparkles className="w-4 h-4 mr-2 text-primary" />
+              Available for Projects
+            </Badge>
+          </div>
+
+          {/* Heading */}
+          <div className="mb-3">
+            <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1]">
+              <span className="block text-foreground mb-1">Hi, I'm</span>
+              <span className="block text-gradient-animated text-glow">{name}</span>
+            </h1>
+          </div>
+
+          {/* Typewriter */}
+          <div className="h-12 flex items-center justify-center mb-5">
+            <span className="text-xl sm:text-2xl text-muted-foreground whitespace-nowrap">
+              I'm a{" "}
+              <span className="text-gradient font-semibold inline-block min-w-[180px] sm:min-w-[220px] text-left">
+                {displayText}
+                <span className="inline-block w-[2px] h-6 bg-primary ml-1 align-middle animate-blink" />
+              </span>
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto px-1 leading-relaxed">
+            I build clean, fast web stuff. Usually found tinkering with
+            new tech or making things look pixel-perfect.
+          </p>
+
+          {/* CTA Buttons — plain, instant, no motion wrapper */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-10 w-full px-4 sm:px-0">
+            <Button size="lg" onClick={scrollToProjects}
+              className="w-full sm:w-auto h-14 group glow-primary transition-all duration-150 text-base px-8 active:scale-[0.97]">
+              View My Work
+              <span className="ml-2 inline-block">→</span>
+            </Button>
+            <Button size="lg" variant="outline" onClick={scrollToContact}
+              className="w-full sm:w-auto h-14 glow-border transition-all duration-150 text-base px-8 active:scale-[0.97]">
+              Get In Touch
+            </Button>
+          </div>
+
+          {/* Tech badges — static, no spring animation */}
+          <div className="flex flex-wrap justify-center gap-2.5 max-w-2xl mx-auto px-2">
+            {techStack.map((tech) => (
+              <Badge
+                key={tech.name}
+                variant="secondary"
+                className={`text-xs py-1.5 px-3 cursor-default
+                  bg-gradient-to-r ${tech.color} bg-clip-text text-transparent
+                  border border-primary/20 transition-colors duration-200
+                  bg-card/50`}
+              >
+                {tech.name}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── DESKTOP VERSION ── Full Framer Motion experience ──
   const containerVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-        staggerChildren: 0.15,
-      },
+      opacity: 1, y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.15 },
     },
   } as any;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
   } as any;
 
   const nameVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
   } as any;
-
-  const letterVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  } as any;
-
-  const name = "Rehan Perera";
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center px-5 pt-20 pb-10 md:py-20 overflow-hidden"
-    >
-      {/* Decorative elements - visible on larger screens */}
-      <div className="hidden md:block absolute top-32 left-10 w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-electric/30 blur-xl animate-float" />
-      <div className="hidden md:block absolute bottom-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-purple/30 to-primary/30 blur-xl animate-float-delayed" />
-      <div className="hidden md:block absolute top-1/3 right-10 w-16 h-16 rounded-full bg-gradient-to-br from-electric/30 to-purple/30 blur-xl animate-float-slow" />
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-5 pt-20 pb-10 md:py-20 overflow-hidden">
+      {/* Decorative elements - desktop only */}
+      <div className="absolute top-32 left-10 w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-electric/30 blur-xl animate-float" />
+      <div className="absolute bottom-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-purple/30 to-primary/30 blur-xl animate-float-delayed" />
+      <div className="absolute top-1/3 right-10 w-16 h-16 rounded-full bg-gradient-to-br from-electric/30 to-purple/30 blur-xl animate-float-slow" />
 
-      {/* Mobile-optimized decorative elements */}
-      <div className="md:hidden absolute top-20 right-4 w-10 h-10 rounded-full bg-primary/20 blur-lg animate-float opacity-60" />
-      <div className="md:hidden absolute bottom-24 left-4 w-8 h-8 rounded-full bg-electric/20 blur-lg animate-float-delayed opacity-60" />
-
-      {/* Content */}
       <motion.div
         className="relative z-20 text-center max-w-5xl mx-auto w-full"
         variants={containerVariants}
@@ -197,114 +203,72 @@ const Hero = () => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {/* Available badge with glow */}
         <motion.div variants={itemVariants}>
-          <Badge
-            variant="outline"
-            className="mb-5 md:mb-8 glow-border-animated px-4 md:px-4 py-2 md:py-2 text-sm md:text-base"
-          >
-            <Sparkles className="w-4 h-4 md:w-4 md:h-4 mr-2 text-primary animate-pulse" />
+          <Badge variant="outline" className="mb-5 md:mb-8 glow-border-animated px-4 py-2 text-base">
+            <Sparkles className="w-4 h-4 mr-2 text-primary animate-pulse" />
             Available for Projects
           </Badge>
         </motion.div>
 
-        {/* Main heading with 3D effect */}
         <motion.div variants={itemVariants} className="mb-3 md:mb-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1]">
-            <span className="block text-foreground mb-1 md:mb-2">Hi, I'm</span>
-            <div className="flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4">
-              <motion.span
-                className="block text-gradient-animated text-glow"
-                variants={nameVariants}
-              >
-                {name}
-              </motion.span>
-            </div>
+          <h1 className="text-6xl lg:text-7xl font-bold leading-[1.1]">
+            <span className="block text-foreground mb-2">Hi, I'm</span>
+            <motion.span className="block text-gradient-animated text-glow" variants={nameVariants}>
+              {name}
+            </motion.span>
           </h1>
         </motion.div>
 
-        {/* Typewriter effect */}
-        <motion.div
-          variants={itemVariants}
-          className="h-12 md:h-16 flex items-center justify-center mb-5 md:mb-8"
-        >
-          <span className="text-xl sm:text-2xl md:text-3xl text-muted-foreground whitespace-nowrap">
+        <motion.div variants={itemVariants} className="h-16 flex items-center justify-center mb-8">
+          <span className="text-3xl text-muted-foreground whitespace-nowrap">
             I'm a{" "}
-            <span className="text-gradient font-semibold inline-block min-w-[180px] sm:min-w-[220px] md:min-w-[280px] text-left">
+            <span className="text-gradient font-semibold inline-block min-w-[280px] text-left">
               {displayText}
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block w-[2px] md:w-[3px] h-6 md:h-8 bg-primary ml-1 align-middle"
+                className="inline-block w-[3px] h-8 bg-primary ml-1 align-middle"
               />
             </span>
           </span>
         </motion.div>
 
-        {/* Description */}
-        <motion.p
-          variants={itemVariants}
-          className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 md:mb-10 max-w-2xl mx-auto px-1 md:px-4 leading-relaxed"
-        >
+        <motion.p variants={itemVariants}
+          className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto px-4 leading-relaxed">
           I build clean, fast web stuff. Usually found tinkering with
           new tech or making things look pixel-perfect.
         </motion.p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-10 md:mb-16 w-full px-4 sm:px-0"
-        >
-          <MagneticButton
-            onClick={scrollToProjects}
-            className="w-full sm:w-auto h-14 md:h-auto group glow-primary hover:glow-primary-intense transition-all duration-300 text-base md:text-lg px-8 md:px-8"
-          >
+        <motion.div variants={itemVariants}
+          className="flex flex-row gap-4 justify-center items-center mb-16">
+          <DesktopMagneticButton onClick={scrollToProjects}
+            className="group glow-primary hover:glow-primary-intense transition-all duration-300 text-lg px-8">
             View My Work
-            <motion.span
-              className="ml-2 inline-block"
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              →
-            </motion.span>
-          </MagneticButton>
-
-          <MagneticButton
-            variant="outline"
-            onClick={scrollToContact}
-            className="w-full sm:w-auto h-14 md:h-auto glow-border hover:bg-card-hover transition-all duration-300 text-base md:text-lg px-8 md:px-8"
-          >
+            <motion.span className="ml-2 inline-block" animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}>→</motion.span>
+          </DesktopMagneticButton>
+          <DesktopMagneticButton variant="outline" onClick={scrollToContact}
+            className="glow-border hover:bg-card-hover transition-all duration-300 text-lg px-8">
             Get In Touch
-          </MagneticButton>
+          </DesktopMagneticButton>
         </motion.div>
 
-        {/* Tech Stack Pills */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap justify-center gap-2.5 md:gap-3 max-w-2xl mx-auto px-2 md:px-4"
-        >
+        <motion.div variants={itemVariants}
+          className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto px-4">
           {techStack.map((tech, index) => (
-            <motion.div
-              key={tech.name}
+            <motion.div key={tech.name}
               initial={{ opacity: 0, scale: 0.5, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{
-                duration: 0.4,
-                delay: 1 + index * 0.05,
-                type: "spring",
-                stiffness: 200,
-              }}
+              transition={{ duration: 0.4, delay: 1 + index * 0.05, type: "spring", stiffness: 200 }}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Badge
-                variant="secondary"
-                className={`text-xs md:text-sm py-1.5 md:py-2 px-3 md:px-4 cursor-default
+              <Badge variant="secondary"
+                className={`text-sm py-2 px-4 cursor-default
                   bg-gradient-to-r ${tech.color} bg-clip-text text-transparent
-                  border border-primary/20 hover:border-primary/50 
+                  border border-primary/20 hover:border-primary/50
                   hover:shadow-lg hover:shadow-primary/20 transition-all duration-300
-                  backdrop-blur-sm bg-card/50`}
-              >
+                  backdrop-blur-sm bg-card/50`}>
                 {tech.name}
               </Badge>
             </motion.div>
@@ -312,20 +276,15 @@ const Hero = () => {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - desktop only */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.6 }}
       >
-        <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
-          Scroll to explore
-        </span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
+        <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Scroll to explore</span>
+        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}>
           <ArrowDown className="w-4 h-4 text-primary" />
         </motion.div>
       </motion.div>

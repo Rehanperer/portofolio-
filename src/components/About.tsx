@@ -8,6 +8,7 @@ import {
   GraduationCap
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Counter = ({ value, duration = 2, delay = 0 }: { value: number; duration?: number; delay?: number }) => {
   const [count, setCount] = useState(0);
@@ -41,6 +42,7 @@ const Counter = ({ value, duration = 2, delay = 0 }: { value: number; duration?:
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isMobile = useIsMobile();
 
   const achievements = [
     { label: "Years Experience", number: "2", suffix: "+", icon: Award },
@@ -55,19 +57,42 @@ const About = () => {
     }
   };
 
+  const principles = [
+    "Clean & maintainable code",
+    "Pixel-perfect UI/UX",
+    "High performance standards",
+    "Responsive & accessible design",
+  ];
+
+  // Wrapper: plain div on mobile, motion.div on desktop
+  const Animated = ({ children, className = "", variants, transition, delay }: any) => {
+    if (isMobile) {
+      return <div className={className}>{children}</div>;
+    }
+    return (
+      <motion.div
+        initial={variants?.initial || { opacity: 0, y: 20 }}
+        animate={isInView ? (variants?.animate || { opacity: 1, y: 0 }) : {}}
+        transition={transition || { duration: 0.6, delay: delay || 0 }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+
   return (
     <section id="about" className="relative py-20 md:py-32 overflow-hidden px-4" ref={sectionRef}>
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float-slow" />
-      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-purple/10 rounded-full blur-3xl animate-float-delayed" />
+      {/* Decorative Orbs - hidden on mobile for performance */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float-slow" />
+          <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-purple/10 rounded-full blur-3xl animate-float-delayed" />
+        </>
+      )}
 
       <div className="container relative z-10 mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-20"
-        >
+        <Animated className="text-center mb-12 md:mb-20">
           <Badge variant="outline" className="mb-4 glow-border px-4 py-1.5 text-sm">
             My Journey
           </Badge>
@@ -75,17 +100,15 @@ const About = () => {
             About <span className="text-gradient">Me</span>
           </h2>
           <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-electric mx-auto rounded-full glow-primary" />
-        </motion.div>
+        </Animated>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start">
-          {/* Stats Section - Bottom on mobile, Left on Desktop */}
+          {/* Stats Section */}
           <div className="lg:col-span-5 grid grid-cols-2 gap-4 md:gap-6 order-2 lg:order-1">
             {achievements.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: index * 0.1, duration: 0.5, type: "spring" }}
+              <Animated key={stat.label}
+                variants={{ initial: { opacity: 0, scale: 0.8 }, animate: { opacity: 1, scale: 1 } }}
+                transition={!isMobile ? { delay: index * 0.1, duration: 0.5, type: "spring" } : undefined}
                 className="glass-card p-5 md:p-8 rounded-3xl text-center group hover:glow-primary transition-all duration-300"
               >
                 <div className="mb-3 md:mb-4 inline-flex p-3 md:p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
@@ -98,16 +121,15 @@ const About = () => {
                 <div className="text-[10px] md:text-xs text-muted-foreground font-semibold uppercase tracking-widest">
                   {stat.label}
                 </div>
-              </motion.div>
+              </Animated>
             ))}
           </div>
 
-          {/* Text Content - Top on mobile, Right on Desktop */}
+          {/* Text Content */}
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            <Animated
+              variants={{ initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 } }}
+              transition={!isMobile ? { duration: 0.8, ease: [0.16, 1, 0.3, 1] } : undefined}
               className="glass p-8 md:p-12 rounded-[2.5rem] border border-primary/10 shadow-2xl"
             >
               <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 flex items-center gap-4">
@@ -120,7 +142,7 @@ const About = () => {
                 <p>
                   I'm a developer who just loves building things that work well and
                   look even better. My coding background keeps me focused on the
-                  details, but I’ve always got a soft spot for great design.
+                  details, but I've always got a soft spot for great design.
                 </p>
                 <p>
                   With <span className="text-foreground font-semibold">2+ years</span> of
@@ -131,35 +153,19 @@ const About = () => {
               </div>
 
               <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                {[
-                  "Clean & maintainable code",
-                  "Pixel-perfect UI/UX",
-                  "High performance standards",
-                  "Responsive & accessible design",
-                ].map((item, i) => (
-                  <motion.div
-                    key={item}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.5 + i * 0.1 }}
-                    className="flex items-center gap-3 group"
-                  >
+                {principles.map((item) => (
+                  <div key={item} className="flex items-center gap-3 group">
                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
                       <div className="w-2 h-2 rounded-full bg-primary group-hover:bg-white" />
                     </div>
                     <span className="text-sm md:text-base font-medium group-hover:text-foreground transition-colors">
                       {item}
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.8 }}
-                className="mt-12"
-              >
+              <div className="mt-12">
                 <button
                   onClick={scrollToContact}
                   className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 active:scale-95 flex items-center justify-center gap-2 group"
@@ -167,8 +173,8 @@ const About = () => {
                   Let's Work Together
                   <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
                 </button>
-              </motion.div>
-            </motion.div>
+              </div>
+            </Animated>
           </div>
         </div>
       </div>
