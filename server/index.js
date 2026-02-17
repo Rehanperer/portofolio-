@@ -3,8 +3,7 @@ import cors from 'cors';
 import { Resend } from 'resend';
 import dotenv from 'dotenv';
 import React from 'react';
-import { render } from '@react-email/components';
-import { ContactEmail } from './emails/ContactEmail.jsx';
+
 
 dotenv.config();
 
@@ -24,8 +23,7 @@ app.post('/api/contact', async (req, res) => {
     try {
         console.log(`Processing contact request from ${name} (${email}) for category: ${category}`);
 
-        // Render the React Email template
-        const emailHtml = await render(React.createElement(ContactEmail, { name }));
+
 
         // 1. Send Admin Notification (Critical)
         const { data: adminData, error: adminError } = await resend.emails.send({
@@ -40,18 +38,7 @@ app.post('/api/contact', async (req, res) => {
             return res.status(500).json({ error: 'Failed to send notification email', details: adminError });
         }
 
-        // 2. Send Auto-Reply (Optional - might fail on free tier if email unverified)
-        try {
-            await resend.emails.send({
-                from: 'Rehan Perera <onboarding@resend.dev>',
-                to: email,
-                subject: 'Message Received - Rehan Perera',
-                html: emailHtml,
-            });
-        } catch (autoReplyError) {
-            console.warn('Auto-reply failed (likely unverified email on free tier):', autoReplyError);
-            // We do NOT fail the request here, as the main message was sent.
-        }
+
 
         res.status(200).json({ success: true, message: 'Message sent successfully', data: adminData });
 
