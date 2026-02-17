@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
+import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -59,6 +60,7 @@ const Index = () => {
             <About />
             <Projects />
             <Skills />
+            <Pricing />
             <Contact />
 
             {/* Footer */}
